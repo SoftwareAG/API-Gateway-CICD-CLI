@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to apigw-cicd-cli 👋</h1>
+<h1 align="center">Welcome to apigw-cicd-cli</h1>
 <p>
   <a href="https://www.npmjs.com/package/http-cli-tool" target="_blank">
     <img alt="Version" src="https://img.shields.io/npm/v/http-cli-tool.svg">
@@ -68,11 +68,15 @@ npm run test
 
 ## Contributors
 
-😀 *[@Anshuman](https://github.com/anshu96788) 
+*[@Anshuman](https://github.com/anshu96788) 
 
-😃 *[@Dipankar](https://github.com/DipankarDDUT) 
+*[@Dipankar](https://github.com/DipankarDDUT) 
 
-😊 *[@Nawajish](https://github.com/Nawajish) 
+*[@Nawajish](https://github.com/Nawajish) 
+
+## License
+
+This project is licensed under the Apache 2.0 License - see the LICENSE.md file for details
 
 
 
