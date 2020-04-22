@@ -66,25 +66,16 @@ Note: Currently, this tool only supports Basic Authentication.
 npm run test
 ```
 
-## Author
+## Contributors
 
-😀 **Anshuman**
+😀 *[@Anshuman](https://github.com/anshu96788) 
 
-😃 **Dipankar**
+😃 *[@Dipankar](https://github.com/DipankarDDUT) 
 
-😊 **Nawajish**
+😊 *[@Nawajish](https://github.com/Nawajish) 
 
-## Find us on Github
 
-*[@Anshuman](https://github.com/anshu96788) 
 
-*[@Dipankar](https://github.com/DipankarDDUT) 
 
-*[@Nawajish](https://github.com/Nawajish) 
 
-## Show your support
 
-Give a ⭐️ if this project helped you!
-
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
