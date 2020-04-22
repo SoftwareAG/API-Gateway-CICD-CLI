@@ -1,12 +1,4 @@
-<h1 align="center">Welcome to apigw-cicd-cli</h1>
-<p>
-  <a href="https://www.npmjs.com/package/http-cli-tool" target="_blank">
-    <img alt="Version" src="https://img.shields.io/npm/v/http-cli-tool.svg">
-  </a>
-  <a href="#" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
-</p>
+# API Gateway CICD CLI
 
 ## Install
 
