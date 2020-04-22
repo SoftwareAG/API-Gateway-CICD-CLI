@@ -1,6 +1,6 @@
 {
   "name": "apigw-cicd-cli",
-  "version": "1.1.21",
+  "version": "1.1.23",
   "description": "This is a Node CLI tool that allows you to make HTTP GET/POST request to APIs. It expects as parameter a config file `config.json` which contains the necessary details to carry out the requests.",
   "main": "",
   "bin": {
