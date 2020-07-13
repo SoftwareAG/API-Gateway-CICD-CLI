@@ -7,23 +7,26 @@ const pjson = require('./package.json');
 const {
     get,
     post
-} = require('./rest');
+} = require('./src/restHandler');
 const {
+    fixPath,
     doesExist,
+    generateNewDownloadPath,
+    moveFile,
     readFile
-} = require('./readFile');
+} = require('./src/fileSystemHandler');
 
 program
     .version(pjson.version)
 
 program
-    .command('export <filePath>')
+    .command('export <filePath> [downloadPath] [force]')
     .alias('e')
     .description('Send a GET request')
-    .action((filePath) => {
+    .action((filePath, downloadPath = __dirname, force) => {
         // Check for missing arguments
-        if (typeof filePath === 'undefined') {
-            log(chalk.red("No command given for argument 'filePath'"));
+        if (typeof filePath === 'undefined' || !doesExist(filePath)) {
+            log(chalk.red("ERROR! Cannot find `config.json`. Please provide correct path."));
             process.exit(1);
         } else {
             // Read config.json
@@ -31,8 +34,29 @@ program
                 // Read successful
                 .then(data => {
                     log(chalk.green('[✔] Read config.json'));
+
+                    // Check if a download path is explicitly provided
+                    if (downloadPath !== __dirname) {
+                        // Validate download path
+                        if (!doesExist(downloadPath)) {
+                            // If invalid, try to fix download path
+                            downloadPath = fixPath(downloadPath);
+                        }
+                    }
+
+                    // If not present already, add '\\' to the end of download path
+                    if (!downloadPath.endsWith('\\'))
+                        downloadPath += '\\';
+
+                    // If force flag is absent, create duplicate if file is already present
+                    if (force === undefined) {
+                        if (doesExist(downloadPath)) {
+                            downloadPath = generateNewDownloadPath(downloadPath)
+                        }
+                    }
+
                     // Make GET request
-                    get(data);
+                    get(data, downloadPath);
                 })
                 // Read failed
                 .catch(err => log(chalk.red(err)));
@@ -73,6 +97,17 @@ program
                 // Read failed
                 .catch(err => log(chalk.red(err)));
         }
+    })
+
+program
+    .command('copy <srcPath> <destDir> [force]')
+    .alias('cp')
+    .description('Copy file from src to dest')
+    .action((srcPath, destDir, force) => {
+        if (srcPath === undefined || destDir === undefined) {
+            process.exit(1);
+        }
+        moveFile(srcPath, destDir, force);
     })
 
 program.parse(process.argv);

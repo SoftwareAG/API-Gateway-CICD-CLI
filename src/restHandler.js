@@ -4,7 +4,7 @@ const log = console.log;
 const request = require('request');
 
 module.exports = {
-    get: data => {
+    get: (data, downloadPath) => {
 
         // Set up request
         var options = {
@@ -14,6 +14,10 @@ module.exports = {
                 'Authorization': `Basic ${Buffer.from(`${data.username}:${data.password}`, 'utf8').toString('base64')}`
             }
         };
+
+        if (!downloadPath.endsWith('.zip')) {
+            downloadPath += 'getResponse.zip';
+        }
 
         // Make GET request
         request(options, (err, res, body) => {
@@ -27,18 +31,18 @@ module.exports = {
                 // Check for Client/Server errors
                 if (res) {
                     if (res.statusCode >= 400) {
-                        log(chalk.red.bold(`${res.statusCode} ${res.statusMessage}`));
+                        log(chalk.red.bold(` ${res.statusCode} ${res.statusMessage}`));
                         process.exit(1);
                     } else {
-                        log(chalk.green.bold(`${res.statusCode} ${res.statusMessage}`));
+                        log(chalk.green.bold(`[✔] Request Status : ${res.statusCode} ${res.statusMessage}`));
                     }
                 }
 
             })
             // Save response
-            .pipe(fs.createWriteStream('getResponse.zip'))
+            .pipe(fs.createWriteStream(`${downloadPath}`))
             // Display success message
-            .on('close', () => log(chalk.green.bold('Sucess! Response saved to current directory!')));
+            .on('close', () => log(chalk.green.bold(`\nSucess! Response saved to`, chalk.white.bold(`${downloadPath}`))));
     },
 
     post: (data, attachment) => {
@@ -77,13 +81,13 @@ module.exports = {
                         log(chalk.red.bold(`${res.statusCode} ${res.statusMessage}`));
                         process.exit(1);
                     } else {
-                        log(chalk.green.bold(`${res.statusCode} ${res.statusMessage}`));
+                        log(chalk.green.bold(`[✔] Request Status : ${res.statusCode} ${res.statusMessage}`));
                     }
                 }
             })
             // Save response
             .pipe(fs.createWriteStream('postResponse.zip'))
             // Display success message
-            .on('close', () => log(chalk.green.bold('Sucess! Response saved to current directory!')));
+            .on('close', () => log(chalk.green.bold('\nSucess! Response saved to current directory!')));
     }
 }
