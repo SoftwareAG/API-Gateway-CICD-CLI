@@ -49,8 +49,8 @@ apigw-cicd-cli --help
 apigw-cicd-gw [options] [command]
 
 Options:
-  -V, --version        output the version number
-  -h, --help           display help for command
+  --version        output the version number
+  --help           display help for command
 
 Commands:
   export|e <filePath> [downloadPath]  		Send a GET request
