@@ -7,7 +7,7 @@ npm i apigw-cicd-cli
 ```
 
 ## About
-This is a Node CLI tool that allows you to make HTTP GET/POST request to APIs. It expects as parameter a config file `config.json` which contains the necessary details to carry out the requests. Responses to GET and POST requests are saved as `getResponse.zip` and `postResponse.zip` respectively in your current directory.
+[This](https://www.npmjs.com/package/apigw-cicd-cli) is a Node CLI tool that allows you to make HTTP GET/POST request to APIs. It expects as parameter a config file `config.json` which contains the necessary details to carry out the requests. Responses to GET and POST requests are saved as `getResponse.zip` and `postResponse.zip` respectively in your current directory.
 
 ## Usage
 
@@ -69,9 +69,10 @@ npm run test
 ## License
 
 This project is licensed under the Apache 2.0 License - see the LICENSE.md file for details
+______________________
+These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.
 
-
-
+Contact us at [TECHcommunity](mailto:technologycommunity@softwareag.com?subject=Github/SoftwareAG) if you have any questions.
 
 
 
