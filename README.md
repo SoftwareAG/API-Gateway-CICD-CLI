@@ -33,11 +33,11 @@ Note: `attachment` is expected to be a .zip file
 
 To copy a file from a `src` to a `dest` folder:
 ```sh
-apigw-cicd-cli copy <complete-path-to-file> <download-directory>
+apigw-cicd-cli copy &ltcomplete-path-to-file&gt &ltdownload-directory&gt
 
 or
 
-apigw-cicd-cli cp <complete-path-to-file> <download-directory>
+apigw-cicd-cli cp &ltcomplete-path-to-file&gt &ltdownload-directory&gt
 ```
 
 To see help:
