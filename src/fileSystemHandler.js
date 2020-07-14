@@ -5,24 +5,43 @@ const path = require('path');
 const {
     config
 } = require('process');
+const {
+    timeStamp
+} = require('console');
 
 let doesExist = file => fs.existsSync(file);
 
 let generateNewDownloadPath = originalDownloadPath => {
+    if (fs.lstatSync(originalDownloadPath).isDirectory()) {
+        originalDownloadPath += 'getResponse.zip'
+    }
+
     const {
         dir,
         name,
         ext
     } = path.parse(originalDownloadPath);
-    const totalDuplicates = fs.readdirSync(dir).filter(file => file.includes(name)).length;
-    const newFileName = name + totalDuplicates + ext;
-    log(chalk.yellow.bold(`** WARNING - File with this name already exists in directory. Saving file as \'${newFileName}\' **`));
+    let totalDuplicates = fs.readdirSync(dir).filter(file => file.includes(name)).length;
+
+    let newFileName = '';
+    if (totalDuplicates === 0)
+        newFileName = name + ext;
+    else {
+        newFileName = name + totalDuplicates + ext;
+        log(chalk.yellow.bold(`** File already exists. Saving file as \'${newFileName}\' **`));
+    }
+
     return dir + '\\' + newFileName;
 };
 
 let moveFile = (srcPath, desDir, force) => {
-    if (!isValidDirectory(srcPath) || !isValidDirectory(desDir)) {
-        log(chalk.red.bold('ERROR! Invalid source or destination path!'));
+    if (!doesExist(srcPath)) {
+        log(chalk.red.bold('Error! Source path does not exist!'));
+        process.exit(1);
+    }
+
+    if (!doesExist(desDir)) {
+        log(chalk.red.bold('Error! Destination directory does not exist!'));
         process.exit(1);
     }
 
@@ -44,40 +63,6 @@ let moveFile = (srcPath, desDir, force) => {
     source.on('error', () => {
         log(chalk.red.bold(err));
     })
-}
-
-let fixPath = path => {
-    // Replaces special characters in path with HEX values
-    let newPath = escape(path).replace(/([a-z])([A-Z])/g, '$1 $2');
-
-    // Stores each sub-directory name
-    let result = [];
-
-    // Replace each special HEX values with original characters
-    newPath = newPath.split(' ').forEach(part => {
-        if (part.includes('%3A')) part = part.split('%3A').join(':\\');
-        if (part.includes('%20')) part = part.split('%20').join(' ');
-        if (part.includes('%27')) part = part.split('%27').join("'");
-        if (part.includes('%2C')) part = part.split('%2C').join(',');
-        if (part.includes('%5B')) part = part.split('%5B').join('[');
-        if (part.includes('%5D')) part = part.split('%5D').join(']');
-        if (part.includes('%0A')) part = part.split('%0A').join('\\n');
-        result.push(part);
-    });
-
-    // Create final configured path
-    newPath = result.join('\\') + '\\';
-
-    // Validate path
-    if (!isValidDirectory(newPath)) {
-        // If invalid, return current directory
-        log(chalk.red("Path could not be fixed!"), chalk.white.bold('-> Saving in current directory instead.'));
-        return __dirname + "\\";
-    }
-
-    // Else return configured path
-    log(chalk.green.bold('[✔] Download path has been fixed'))
-    return newPath;
 }
 
 let readFile = filePath => {
@@ -105,7 +90,6 @@ let readFile = filePath => {
 module.exports = {
     readFile: readFile,
     doesExist: doesExist,
-    fixPath: fixPath,
     generateNewDownloadPath: generateNewDownloadPath,
     moveFile: moveFile
 }

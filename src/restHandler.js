@@ -42,7 +42,7 @@ module.exports = {
             // Save response
             .pipe(fs.createWriteStream(`${downloadPath}`))
             // Display success message
-            .on('close', () => log(chalk.green.bold(`\nSucess! Response saved to`, chalk.white.bold(`${downloadPath}`))));
+            .on('close', () => log(chalk.green.bold(`\nSuccess! Response saved to`, chalk.white.bold(`${downloadPath}`))));
     },
 
     post: (data, attachment) => {
@@ -88,6 +88,6 @@ module.exports = {
             // Save response
             .pipe(fs.createWriteStream('postResponse.zip'))
             // Display success message
-            .on('close', () => log(chalk.green.bold('\nSucess! Response saved to current directory!')));
+            .on('close', () => log(chalk.green.bold('\nSuccess! Response saved to current directory!')));
     }
 }

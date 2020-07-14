@@ -9,7 +9,6 @@ const {
     post
 } = require('./src/restHandler');
 const {
-    fixPath,
     doesExist,
     generateNewDownloadPath,
     moveFile,
@@ -23,10 +22,10 @@ program
     .command('export <filePath> [downloadPath] [force]')
     .alias('e')
     .description('Send a GET request')
-    .action((filePath, downloadPath = __dirname, force) => {
+    .action((filePath, downloadPath = process.cwd(), force) => {
         // Check for missing arguments
         if (typeof filePath === 'undefined' || !doesExist(filePath)) {
-            log(chalk.red("ERROR! Cannot find `config.json`. Please provide correct path."));
+            log(chalk.red("Error! Cannot find `config.json`. Please provide correct path."));
             process.exit(1);
         } else {
             // Read config.json
@@ -35,13 +34,10 @@ program
                 .then(data => {
                     log(chalk.green('[✔] Read config.json'));
 
-                    // Check if a download path is explicitly provided
-                    if (downloadPath !== __dirname) {
-                        // Validate download path
-                        if (!doesExist(downloadPath)) {
-                            // If invalid, try to fix download path
-                            downloadPath = fixPath(downloadPath);
-                        }
+                    // Check if a download path is explicitly provided and not invalid
+                    if (downloadPath !== process.cwd() && !doesExist(downloadPath)) {
+                        log(chalk.red.bold('** Invalid path. Saving in current directory. **'));
+                        downloadPath = process.cwd();
                     }
 
                     // If not present already, add '\\' to the end of download path
@@ -50,9 +46,7 @@ program
 
                     // If force flag is absent, create duplicate if file is already present
                     if (force === undefined) {
-                        if (doesExist(downloadPath)) {
-                            downloadPath = generateNewDownloadPath(downloadPath)
-                        }
+                        downloadPath = generateNewDownloadPath(downloadPath)
                     }
 
                     // Make GET request
@@ -105,6 +99,7 @@ program
     .description('Copy file from src to dest')
     .action((srcPath, destDir, force) => {
         if (srcPath === undefined || destDir === undefined) {
+            log(chalk.red.bold('Error! Missing source or destination path.'))
             process.exit(1);
         }
         moveFile(srcPath, destDir, force);
