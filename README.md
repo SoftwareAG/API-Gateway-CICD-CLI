@@ -26,24 +26,24 @@ Note:
 1. Command argument within [] are optional and those within <> are mandatory.
 2. All commands have a broader and a shorter version. Example: `export` command can be wriiten as `e`
 3. All command arguments have a broader (starts with `--`) and a shorter version (starts with `-`).
-  Example: `--force` command argument can be written as `-f`
+  Example: `--filename` command argument can be written as `-n`
 
 To make a GET request:
 ```sh
-apigw-cicd-cli export <path-to-config.json-file> [--downloadDir <download-directory>] [--filename <name-for-response-file>] [--force]
+apigw-cicd-cli export <path-to-config.json-file> [--downloadDir <download-directory>] [--filename <name-for-response-file>] [--no-force]
 
 or
 
-apigw-cicd-cli e <path-to-config.json-file> [-d <download-directory>] [-n <name-for-response-file>] [-f]
+apigw-cicd-cli e <path-to-config.json-file> [-d <download-directory>] [-n <name-for-response-file>] [--no-force]
 ```
 
 To make a POST request:
 ```sh
-apigw-cicd-cli import <path-to-config.json-file> <path-to-attachment-file> [--downloadDir <download-directory>] [--filename <name-for-response-file>] [--force]
+apigw-cicd-cli import <path-to-config.json-file> <path-to-attachment-file> [--downloadDir <download-directory>] [--filename <name-for-response-file>] [--no-force]
 
 or
 
-apigw-cicd-cli i <path-to-config.json-file> <path-to-attachment-file> [-d <download-directory>] [-n <name-for-response-file>] [-f]
+apigw-cicd-cli i <path-to-config.json-file> <path-to-attachment-file> [-d <download-directory>] [-n <name-for-response-file>] [--no-force]
 ```
 Note: `attachment` is expected to be a .zip file
 
@@ -74,7 +74,7 @@ Commands:
 Options:
   -d, --downloadDir <dir>   Set download directory for GET response
   -n, --filename <name>     Name to save GET response with
-  --no-force                If this option is specifed and file already exists in download directory, the file WILL NOT be overwritten
+  --no-force                By default, duplicates are overwritten. But if --no-force is specifed, a new file will be created.
 ```
 
 ## Examples

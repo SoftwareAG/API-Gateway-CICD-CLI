@@ -23,19 +23,13 @@ program
     .usage("<command> <command-arguments> [options]")
     .version(pkgJson.version);
 
-// All Options
-program
-    .option('-d, --downloadDir <dir>', 'Set download directory for GET response')
-    .option('-n, --filename <name>', 'Name to save GET response with')
-    .option('--no-force', 'If this option is specifed and file already exists in download directory, the file WILL NOT be overwritten.');
-
 // All Commands
 program
     .command('export <filePath>')
     .alias('e')
     .description('Send a GET request')
     .option('-d, --downloadDir <dir>', 'Set download directory for GET response', process.cwd())
-    .option('--no-force', 'If this option is specifed and file already exists in download directory, the file WILL NOT be overwritten.')
+    .option('--no-force', 'By default, duplicates are overwritten. But if --no-force is specifed, a new file will be created.')
     .option('-n, --filename <name>', 'Name to save GET response with', 'getResponse')
     .action((filePath, options) => {
         let {
@@ -88,7 +82,7 @@ program
     .alias('i')
     .description('Send a POST request')
     .option('-d, --downloadDir <dir>', 'Set download directory for POST response', process.cwd())
-    .option('--no-force', 'If this option is specifed and file already exists in download directory, the file WILL NOT be overwritten.')
+    .option('--no-force', 'By default, duplicates are overwritten. But if --no-force is specifed, a new file will be created.')
     .option('-n, --filename <name>', 'Name to save POST response with', 'postResponse')
     .action((filePath, attachment, options) => {
         let {
@@ -118,7 +112,7 @@ program
                     downloadPath = removeFilenameFromDownloadPath(downloadPath);
 
                     // Check if download path is invalid
-                    if (!fs.existsSync(downloadPath)) {
+                    if (!doesExist(downloadPath)) {
                         // log(chalk.red.bold('** Invalid download path. Saving in current directory. **'));
                         console.log('Invalid download path. Saving in current directory');
                         // If specified download path is invalid AND also, a custom path,
@@ -137,7 +131,7 @@ program
                     }
 
                     // Check if attachment exists
-                    if (!fs.existsSync(attachmentPath)) {
+                    if (!doesExist(attachmentPath)) {
                         // log(chalk.red.bold(`Error! ${attachmentPath} not found.`));
                         console.log(`Attachment file could not be found. Please try again.`)
                         process.exit(1);
@@ -155,7 +149,7 @@ program
     .command('copy <srcPath> <destDir>')
     .alias('cp')
     .description('Copy file from src to dest')
-    .option('--no-force', 'If this option is specifed and file already exists in download directory, the file WILL NOT be overwritten.')
+    .option('--no-force', 'By default, duplicates are overwritten. But if --no-force is specifed, a new file will be created.')
     .action((srcPath, destDir, options) => {
         let {
             force
