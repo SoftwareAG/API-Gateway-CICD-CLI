@@ -17,9 +17,19 @@ const {
     removeFilenameFromDownloadPath
 } = require('./src/fileSystemHandler');
 
+// Set name, how-to-use, and version of the CLI
 program
+    .name(pkgJson.name)
+    .usage("<command> <command-arguments> [options]")
     .version(pkgJson.version);
 
+// All Options
+program
+    .option('-d, --downloadDir <dir>', 'Set download directory for GET response')
+    .option('-f, --force', 'If file exists in download directory, it is overwritten')
+    .option('-n, --filename <name>', 'Name to save GET response with');
+
+// All Commands
 program
     .command('export <filePath>')
     .alias('e')
@@ -151,19 +161,13 @@ program
             force
         } = options;
 
+        // Check for missing arguments
         if (srcPath === undefined || destDir === undefined) {
             log(chalk.red.bold('Error! Missing source or destination path.'))
             process.exit(1);
         }
+        // Copy
         moveFile(srcPath, destDir, force);
     })
-
-program.on('--help', () => {
-    log('');
-    log('Options:');
-    log('-d, --downloadDir <dir>', 'Set download directory for GET response')
-    log('-f, --force', '\t\tIf file exists in download directory, it is overwritten')
-    log('-n, --filename <name>', '\tName to save GET response with')
-});
 
 program.parse(process.argv);
