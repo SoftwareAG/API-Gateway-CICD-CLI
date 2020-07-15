@@ -1,10 +1,14 @@
 const chalk = require('chalk');
 const fs = require('fs');
 const log = console.log;
+const path = require('path');
+const {
+    fixFileName
+} = require('./fileSystemHandler');
 const request = require('request');
 
 module.exports = {
-    get: (data, downloadPath) => {
+    get: (data, downloadPath, fileName) => {
 
         // Set up request
         var options = {
@@ -15,9 +19,12 @@ module.exports = {
             }
         };
 
-        if (!downloadPath.endsWith('.zip')) {
-            downloadPath += 'getResponse.zip';
-        }
+        // Add extension to fileName if it is invalid or missing
+        fileName = fixFileName(fileName);
+
+        // If downloadPath does not contain a filename, add it
+        if (!path.extname(downloadPath))
+            downloadPath += fileName;
 
         // Make GET request
         request(options, (err, res, body) => {
@@ -45,7 +52,13 @@ module.exports = {
             .on('close', () => log(chalk.green.bold(`\nSuccess! Response saved to`, chalk.white.bold(`${downloadPath}`))));
     },
 
-    post: (data, attachment) => {
+    post: (data, attachment, downloadPath, fileName) => {
+
+        attachmentPath = fixFileName(attachmentPath);
+        fileName = fixFileName(fileName);
+
+        if (!path.extname(downloadPath))
+            downloadPath += fileName;
 
         // Set up request
         var options = {

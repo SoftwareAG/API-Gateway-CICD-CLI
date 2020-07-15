@@ -2,42 +2,58 @@
 
 ## Install
 
+To install apigw-cicd-cli locally:
 ```sh
 npm i apigw-cicd-cli
 ```
 
+To install apigw-cicd-cli globally:
+```sh
+npm i -g apigw-cicd-cli
+```
+
+To install the latest version of apigw-cicd-cli:
+```sh
+npm i apigw-cicd-cli@latest
+```
+
 ## About
-[This](https://www.npmjs.com/package/apigw-cicd-cli) is a Node CLI tool that allows you to make HTTP GET/POST request to REST APIs. It expects as parameter a JSON file `config.json` ,which contains the request URL and credentials necessary to make the requests. Responses to GET and POST requests are saved as `getResponse.zip` and `postResponse.zip` respectively, in the specified directory. If specified directory is invalid, the responses will be saved in the current directory. Additionally, the CLI can also be used to copy a file from a `src` folder to a `dest` folder. 
+[This](https://www.npmjs.com/package/apigw-cicd-cli) is a Node CLI tool that allows you to make HTTP GET/POST request to REST APIs. It expects as parameter a JSON file `config.json` ,which contains the request URL and credentials necessary to make the requests. By default, responses to GET and POST requests will be saved as `getResponse.zip` and `postResponse.zip` respectively in the current directory. Additionally, the CLI can also be used to copy a file from a `src` folder to a `dest` folder.
 
 ## Commands
 
+Note:
+1. Command argument within [] are optional and those within <> are mandatory.
+2. All commands have a broader and a shorter version. Example: `export` command can be wriiten as `e`
+3. All command arguments have a broader (starts with `--`) and a shorter version (starts with `-`).
+  Example: `--force` command argument can be written as `-f`
+
 To make a GET request:
 ```sh
-apigw-cicd-cli export config.json [download-path]
+apigw-cicd-cli export <path-to-config.json-file> [--downloadDir <download-directory>] [--filename <name-for-response-file>] [--force]
 
 or
 
-apigw-cicd-cli e config.json [download-path]
+apigw-cicd-cli e <path-to-config.json-file> [-d <download-directory>] [-n <name-for-response-file>] [-f]
 ```
-Note: Parameters within [] are optional
 
 To make a POST request:
 ```sh
-apigw-cicd-cli import config.json attachment
+apigw-cicd-cli import <path-to-config.json-file> <path-to-attachment-file> [--downloadDir <download-directory>] [--filename <name-for-response-file>] [--force]
 
 or
 
-apigw-cicd-cli i config.json attachment
+apigw-cicd-cli i <path-to-config.json-file> <path-to-attachment-file> [-d <download-directory>] [-n <name-for-response-file>] [-f]
 ```
 Note: `attachment` is expected to be a .zip file
 
 To copy a file from a `src` to a `dest` folder:
 ```sh
-apigw-cicd-cli copy <complete-path-to-file> <download-directory>
+apigw-cicd-cli copy <complete-path-to-file> <download-directory> [--force]
 
 or
 
-apigw-cicd-cli cp <complete-path-to-file> <download-directory>
+apigw-cicd-cli cp <complete-path-to-file> <download-directory> [-f]
 ```
 
 To see help:
@@ -53,10 +69,15 @@ Options:
   --help           display help for command
 
 Commands:
-  export|e <filePath> [downloadPath]  		Send a GET request
-  import|i <filename>  			      	Send a POST request
-  copy|cp <path-to-file> <download-directory> 	Copy a file from a src folder to a dest folder
-  help [command]       				display help for command
+  export|e <path-to-config.json-file> [options]		                          Send a GET request
+  import|i <path-to-config.json-file> <path-to-attachment-file> [options]   Send a POST request
+  copy|cp <path-to-file> <download-directory> [force] 	                    Copy a file from a src folder to a dest folder
+  --help               				                                              display help for commands and options
+
+Options:
+  -d, --downloadDir <dir>   Set download directory for GET response
+  -f, --force               If file exists in download directory, it is overwritten
+  -n, --filename <name>     Name to save GET response with
 ```
 
 ## Examples
@@ -71,19 +92,13 @@ The `config.json` file should have the following format:
 
 Note: Currently, this tool only supports Basic Authentication.
 
-## Run tests
-
-```sh
-npm run test
-```
-
 ## Contributors
 
-*[@Anshuman](https://github.com/anshu96788) 
+*[@Anshuman](https://github.com/anshu96788)
 
-*[@Dipankar](https://github.com/DipankarDDUT) 
+*[@Dipankar](https://github.com/DipankarDDUT)
 
-*[@Nawajish](https://github.com/Nawajish) 
+*[@Nawajish](https://github.com/Nawajish)
 
 ## License
 

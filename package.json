@@ -1,7 +1,7 @@
 {
   "name": "apigw-cicd-cli",
-  "version": "1.2.2",
-  "description": "This is a Node CLI tool that allows you to make HTTP GET/POST request to APIs. It expects as parameter a config file `config.json` which contains the necessary details to carry out the requests.",
+  "version": "1.2.15",
+  "description": "This is a Node CLI tool that allows you to make HTTP GET/POST request to REST APIs. It expects as parameter a JSON file `config.json` ,which contains the request URL and credentials necessary to make the requests. By default, responses to GET and POST requests will be saved as `getResponse.zip` and `postResponse.zip` respectively in the current directory. Additionally, the CLI can also be used to copy a file from a `src` folder to a `dest` folder.",
   "main": "",
   "bin": {
     "apigw-cicd-cli": "./index.js"

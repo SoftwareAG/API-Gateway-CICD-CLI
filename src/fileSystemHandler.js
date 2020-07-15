@@ -2,36 +2,49 @@ const fs = require('fs');
 const chalk = require('chalk');
 const log = console.log;
 const path = require('path');
-const {
-    config
-} = require('process');
-const {
-    timeStamp
-} = require('console');
 
 let doesExist = file => fs.existsSync(file);
 
-let generateNewDownloadPath = originalDownloadPath => {
-    if (fs.lstatSync(originalDownloadPath).isDirectory()) {
-        originalDownloadPath += 'getResponse.zip'
-    }
-
+let removeFilenameFromDownloadPath = downloadPath => {
     const {
         dir,
         name,
         ext
-    } = path.parse(originalDownloadPath);
-    let totalDuplicates = fs.readdirSync(dir).filter(file => file.includes(name)).length;
-
-    let newFileName = '';
-    if (totalDuplicates === 0)
-        newFileName = name + ext;
-    else {
-        newFileName = name + totalDuplicates + ext;
-        log(chalk.yellow.bold(`** File already exists. Saving file as \'${newFileName}\' **`));
+    } = path.parse(downloadPath);
+    if (name !== '' && ext !== '') {
+        console.log('Download path should not contain a filename.')
+        downloadPath = dir;
     }
+    return downloadPath;
+}
 
-    return dir + '\\' + newFileName;
+let generateNewDownloadPath = (originalDownloadPath, fileName) => {
+    if (!(fs.existsSync(originalDownloadPath) && fs.lstatSync(originalDownloadPath).isDirectory())) {
+        log(chalk.red('Invalid Download Path'));
+    }
+    // If file ends with . and not a proper extension. Example - getResponse.
+    if (path.extname(fileName) === '.')
+        fileName = fileName.slice(0, -1) + '.zip';
+    // If fileName has no extension, append '.zip' to the end
+    if (!path.extname(fileName))
+        fileName += '.zip';
+
+    let newFileName = fileName;
+    do {
+        let {
+            name,
+            ext
+        } = path.parse(newFileName);
+        let totalDuplicates = fs.readdirSync(originalDownloadPath).filter(file => file.includes(name) && path.extname(file) === ext).length;
+        if (totalDuplicates === 0)
+            newFileName = name + ext;
+        else {
+            newFileName = name + " - Copy (" + totalDuplicates + ")" + ext;
+            log(chalk.yellow.bold(`** File already exists. Saving file as \'${newFileName}\' **`));
+        }
+    } while (fs.existsSync(originalDownloadPath + newFileName));
+
+    return originalDownloadPath + newFileName;
 };
 
 let moveFile = (srcPath, desDir, force) => {
@@ -48,7 +61,7 @@ let moveFile = (srcPath, desDir, force) => {
     let filename = path.basename(srcPath);
     let fullDestPath = desDir + '\\' + filename;
 
-    if (force === undefined) {
+    if (!force) {
         if (doesExist(fullDestPath)) {
             fullDestPath = generateNewDownloadPath(fullDestPath);
         }
@@ -63,6 +76,16 @@ let moveFile = (srcPath, desDir, force) => {
     source.on('error', () => {
         log(chalk.red.bold(err));
     })
+}
+
+let fixFileName = fileName => {
+    // If file ends with . and not a proper extension. Example - getResponse.
+    if (path.extname(fileName) === '.')
+        fileName = fileName.slice(0, -1) + '.zip';
+    // If fileName has no extension, append '.zip' to the end
+    if (!path.extname(fileName))
+        fileName += '.zip';
+    return fileName;
 }
 
 let readFile = filePath => {
@@ -90,6 +113,8 @@ let readFile = filePath => {
 module.exports = {
     readFile: readFile,
     doesExist: doesExist,
+    fixFileName: fixFileName,
     generateNewDownloadPath: generateNewDownloadPath,
-    moveFile: moveFile
+    moveFile: moveFile,
+    removeFilenameFromDownloadPath: removeFilenameFromDownloadPath
 }
