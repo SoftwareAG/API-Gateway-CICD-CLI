@@ -78,13 +78,13 @@ program
     })
 
 program
-    .command('import <filePath> <attachment>')
+    .command('import <filePath> <attachmentPath>')
     .alias('i')
     .description('Send a POST request')
     .option('-d, --downloadDir <dir>', 'Set download directory for POST response', process.cwd())
     .option('--no-force', 'By default, duplicates are overwritten. But if --no-force is specifed, a new file will be created.')
     .option('-n, --filename <name>', 'Name to save POST response with', 'postResponse')
-    .action((filePath, attachment, options) => {
+    .action((filePath, attachmentPath, options) => {
         let {
             downloadDir: downloadPath,
             filename: fileName,
@@ -92,8 +92,8 @@ program
         } = options;
 
         // Check for missing arguments
-        if (typeof filePath === undefined || typeof attachment === undefined) {
-            log(chalk.red("Error! Both `filePath` and `attachment` are required parameters."));
+        if (typeof filePath === undefined || typeof attachmentPath === undefined) {
+            log(chalk.red("Error! Both `filePath` and `attachmentPath` are required parameters."));
             process.exit(1);
         } else {
             // Check if config.json exists
@@ -132,7 +132,6 @@ program
 
                     // Check if attachment exists
                     if (!doesExist(attachmentPath)) {
-                        // log(chalk.red.bold(`Error! ${attachmentPath} not found.`));
                         console.log(`Attachment file could not be found. Please try again.`)
                         process.exit(1);
                     }

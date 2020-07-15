@@ -52,9 +52,11 @@ module.exports = {
             .on('close', () => log(chalk.green.bold(`\nSuccess! Response saved to`, chalk.white.bold(`${downloadPath}`))));
     },
 
-    post: (data, attachment, downloadPath, fileName) => {
+    post: (data, attachmentPath, downloadPath, fileName) => {
 
+        // Add extension to fileName if it is invalid or missing
         attachmentPath = fixFileName(attachmentPath);
+        // Add extension to fileName if it is invalid or missing
         fileName = fixFileName(fileName);
 
         if (!path.extname(downloadPath))
@@ -70,9 +72,9 @@ module.exports = {
             },
             formData: {
                 'file': {
-                    'value': fs.createReadStream(`${attachment}`),
+                    'value': fs.createReadStream(`${attachmentPath}`),
                     'options': {
-                        'filename': attachment,
+                        'filename': attachmentPath,
                         'contentType': null
                     }
                 }

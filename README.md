@@ -62,7 +62,11 @@ apigw-cicd-cli --help
 ```
 
 ```sh
-apigw-cicd-gw [options] [command]
+Usage: apigw-cicd-cli <command> <command-arguments> [options]
+
+Global Options:
+  -V, --version                               output the version number
+  -h, --help                                  display help for command
 
 Commands:
   export|e <path-to-config.json-file> [options]		                    Send a GET request
@@ -71,10 +75,15 @@ Commands:
   --help               				                            Display help for commands and options
   --version                                                                 Output the version number
 
-Options:
-  -d, --downloadDir <dir>   Set download directory for GET response
-  -n, --filename <name>     Name to save GET response with
-  --no-force                By default, duplicates are overwritten. But if --no-force is specifed, a new file will be created.
+Options for `export` and `import` commands:
+  -d, --downloadDir <dir>  Set download directory for GET response (default: "C:\\Users\\nlas\\Desktop\\Workspace\\API-Gateway-CICD-CLI")
+  --no-force               By default, duplicates are overwritten. But if --no-force is specifed, a new file will be created.
+  -n, --filename <name>    Name to save GET response with (default: "getResponse")
+  -h, --help               display help for command
+
+Options for `copy` command:
+  --no-force  By default, duplicates are overwritten. But if --no-force is specifed, a new file will be created.
+  -h, --help  display help for command
 ```
 
 ## Examples
