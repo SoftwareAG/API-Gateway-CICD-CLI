@@ -73,8 +73,8 @@ Commands:
 
 Options:
   -d, --downloadDir <dir>   Set download directory for GET response
-  -f, --force               If file exists in download directory, it is overwritten
   -n, --filename <name>     Name to save GET response with
+  --no-force                If this option is specifed and file already exists in download directory, the file WILL NOT be overwritten
 ```
 
 ## Examples

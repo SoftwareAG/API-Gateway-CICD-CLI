@@ -26,8 +26,8 @@ program
 // All Options
 program
     .option('-d, --downloadDir <dir>', 'Set download directory for GET response')
-    .option('-f, --force', 'If file exists in download directory, it is overwritten')
-    .option('-n, --filename <name>', 'Name to save GET response with');
+    .option('-n, --filename <name>', 'Name to save GET response with')
+    .option('--no-force', 'If this option is specifed and file already exists in download directory, the file WILL NOT be overwritten.');
 
 // All Commands
 program
@@ -35,7 +35,7 @@ program
     .alias('e')
     .description('Send a GET request')
     .option('-d, --downloadDir <dir>', 'Set download directory for GET response', process.cwd())
-    .option('-f, --force', 'If file exists in download directory, it is overwritten', false)
+    .option('--no-force', 'If this option is specifed and file already exists in download directory, the file WILL NOT be overwritten.')
     .option('-n, --filename <name>', 'Name to save GET response with', 'getResponse')
     .action((filePath, options) => {
         let {
@@ -70,7 +70,7 @@ program
                     if (!downloadPath.endsWith('\\'))
                         downloadPath += '\\';
 
-                    // If force flag is absent, create duplicate if file is already present
+                    // If --no-force option is specified, create duplicate if file is already present
                     if (!force) {
                         downloadPath = generateNewDownloadPath(downloadPath, fileName)
                     }
@@ -88,7 +88,7 @@ program
     .alias('i')
     .description('Send a POST request')
     .option('-d, --downloadDir <dir>', 'Set download directory for POST response', process.cwd())
-    .option('-f, --force', 'If file exists in download directory, it is overwritten', false)
+    .option('--no-force', 'If this option is specifed and file already exists in download directory, the file WILL NOT be overwritten.')
     .option('-n, --filename <name>', 'Name to save POST response with', 'postResponse')
     .action((filePath, attachment, options) => {
         let {
@@ -131,7 +131,7 @@ program
                     if (!downloadPath.endsWith('\\'))
                         downloadPath += '\\';
 
-                    // If force flag is absent, create duplicate if file is already present
+                    // If --no-force option is specified, create duplicate if file is already present
                     if (!force) {
                         downloadPath = generateNewDownloadPath(downloadPath, fileName)
                     }
@@ -155,7 +155,7 @@ program
     .command('copy <srcPath> <destDir>')
     .alias('cp')
     .description('Copy file from src to dest')
-    .option('-f, --force', 'If file exists in download directory, it is overwritten', false)
+    .option('--no-force', 'If this option is specifed and file already exists in download directory, the file WILL NOT be overwritten.')
     .action((srcPath, destDir, options) => {
         let {
             force
