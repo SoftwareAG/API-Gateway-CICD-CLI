@@ -64,15 +64,12 @@ apigw-cicd-cli --help
 ```sh
 apigw-cicd-gw [options] [command]
 
-Options:
-  --version        output the version number
-  --help           display help for command
-
 Commands:
   export|e <path-to-config.json-file> [options]		                          Send a GET request
   import|i <path-to-config.json-file> <path-to-attachment-file> [options]   Send a POST request
   copy|cp <path-to-file> <download-directory> [force] 	                    Copy a file from a src folder to a dest folder
   --help               				                                              display help for commands and options
+  --version                                                                 Output the version number
 
 Options:
   -d, --downloadDir <dir>   Set download directory for GET response
